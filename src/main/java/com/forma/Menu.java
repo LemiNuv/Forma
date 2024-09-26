@@ -14,12 +14,12 @@ public class Menu {
         configuracion = new Configuracion(plano, leerFichero);
         efecto = new Efecto();
     }
-    
+
     public void menu() {
         Scanner in = new Scanner(System.in);
         efecto.limpiarPantalla();
         while (true) {
-            System.out.println(efecto.cursiva("Forma v1.1.0"));
+            System.out.println(efecto.cursiva("Forma v1.2.0"));
             System.out.println(efecto.negrita("Menu:"));
             System.out.println("1. Generar plano");
             System.out.println("2. Guardar plano anterior en un archivo.");
