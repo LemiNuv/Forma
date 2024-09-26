@@ -3,14 +3,20 @@ import java.util.InputMismatchException;
 import java.util.Scanner;;
 
 public class Menu {
-    Plano plano = new Plano();
-    Efecto efecto = new Efecto();
-    Configuracion configuracion = new Configuracion(plano);
+    private Plano plano;
+    private Efecto efecto;
+    private LeerFichero leerFichero;
+    private Configuracion configuracion;
 
+    public Menu() {
+        leerFichero = new LeerFichero();
+        plano = new Plano(leerFichero);
+        configuracion = new Configuracion(plano, leerFichero);
+        efecto = new Efecto();
+    }
+    
     public void menu() {
         Scanner in = new Scanner(System.in);
-        plano = new Plano();
-        configuracion = new Configuracion(plano);
         efecto.limpiarPantalla();
         while (true) {
             System.out.println(efecto.cursiva("Forma v1.1.0"));

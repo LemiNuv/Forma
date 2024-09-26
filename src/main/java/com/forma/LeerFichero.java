@@ -1,20 +1,21 @@
 package com.forma;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.io.File;
+import java.util.Set;
 
 public class LeerFichero {
 
     Efecto efecto = new Efecto();
     private boolean esLlenado = false;
-    private String caracterDeLlenado = "x";
+    private String caracterDeLlenado = "X";
+
     public Plano convertirFicheroPlano(String nombre) {
         File archivo = new File(nombre + ".txt");
         if (archivo.exists()) {
@@ -44,7 +45,7 @@ public class LeerFichero {
                         matriz[i][j] = String.valueOf(linea.charAt(j));
                         caracteres.add(matriz[i][j]);
                     } else {
-                        matriz[i][j] = caracterDeLlenado;
+                        matriz[i][j] = this.caracterDeLlenado;
                         esLlenado = true;
                     }
                 }
@@ -62,5 +63,10 @@ public class LeerFichero {
     public void setEsLlenado(boolean esLlenado) {
         this.esLlenado = esLlenado;
     }
-    
+    public void configurarCaracterDeLlenado(String nuevoCaracter) {
+        this.caracterDeLlenado = nuevoCaracter;
+    }   
+    public String getCaracterDeLlenado() {
+        return this.caracterDeLlenado;
+    }
 }

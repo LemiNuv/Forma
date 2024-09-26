@@ -3,24 +3,25 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Configuracion {
-    Scanner in = new Scanner(System.in);
-    Efecto efecto = new Efecto();
     private Plano plano;
+    Efecto efecto = new Efecto();
+    private LeerFichero leerFichero;
     private boolean estadisticasActivas = false;
-    private boolean planoBooleanoActivo = false;
 
-    public Configuracion(Plano plano) {
+    public Configuracion(Plano plano, LeerFichero leerFichero) {
         this.plano = plano;
+        this.leerFichero = leerFichero;
     }
 
     public void mostrarConfiguracion() {
         efecto.limpiarPantalla();
+        Scanner in = new Scanner(System.in);
         while (true) {
             System.out.println(efecto.negrita("Configuración:"));
             System.out.println("1. Mostrar estadísticas e información extra: " + (plano.isEstadisticas() ? efecto.verde("Activado"):"Desactivado"));
-            System.out.println("2. Mostrar el plano en términos booleanos junto a las estadísticas: " + (plano.isPlanoBooleano() ? efecto.verde("Activado"):"Desactivado"));
-            System.out.println("3. Configurar caracteres del plano");
-            System.out.println("4. Restablecer a caracteres predeterminados.");
+            System.out.println("2. Configurar caracteres del plano");
+            System.out.println("3. Configurar carácter de llenado por defecto: [" + efecto.verde(leerFichero.getCaracterDeLlenado()) +"]");
+            System.out.println("4. Restablecer a caracteres predeterminados");
             System.out.println("5. Volver al menú principal");
             int configOpcion = -1;
             try {
@@ -35,10 +36,10 @@ public class Configuracion {
                     activarEstadisticas();
                     break;
                 case 2:
-                    mostrarPlanoBooleano();
+                    configurarCaracteres();
                     break;
                 case 3:
-                    configurarCaracteres();
+                    configurarCaracterDeLlenado();
                     break;
                 case 4:
                     restablecerCaracteres();
@@ -64,22 +65,19 @@ public class Configuracion {
         System.out.println();
     }
 
-    // Algo innecesario pero bueno
-    public void mostrarPlanoBooleano() {
-        planoBooleanoActivo = !planoBooleanoActivo;
-        plano.setPlanoBooleano(planoBooleanoActivo);
-        if (planoBooleanoActivo) {
-            System.out.println(efecto.verde("Se mostrará el plano en términos booleanos."));
-        } else {
-            System.out.println(efecto.verde("No se mostrará el plano en términos booleanos."));
-        }
-        System.out.println();
+    public void restablecerCaracteres() {
+        String caracterVacio = "░░";
+        String caracterLleno = "██";
+        plano.setCaracterVacio(caracterVacio);
+        plano.setCaracterLleno(caracterLleno);
+        System.out.println(efecto.verde("Se han restablecido los caracteres."));
     }
 
     public void configurarCaracteres() {
+        Scanner in = new Scanner(System.in);
         System.out.println(efecto.negrita("Configura tus caracteres para el plano:"));
         while (true) {
-            System.out.println("Introduce el carácter para 'true: ");
+            System.out.println("Introduce el carácter para 'true': ");
             String input = in.next();
             plano.setCaracterVacio(input);
             System.out.println(efecto.verde("Carácter guardado."));
@@ -94,12 +92,11 @@ public class Configuracion {
         }
     }
 
-    public void restablecerCaracteres() {
-        String caracterVacio = "░░";
-        String caracterLleno = "██";
-        plano.setCaracterVacio(caracterVacio);
-        plano.setCaracterLleno(caracterLleno);
-        System.out.println(efecto.verde("Se han restablecido los caracteres."));
+    public void configurarCaracterDeLlenado() {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Introduce el nuevo carácter de llenado:");
+        String nuevoCaracter = in.next();
+        leerFichero.configurarCaracterDeLlenado(nuevoCaracter);
+        System.out.println("Carácter de llenado actualizado a: " + nuevoCaracter);
     }
-
 }

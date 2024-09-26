@@ -1,14 +1,14 @@
 package com.forma;
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.InputMismatchException;
 import java.util.Set;
 
 public class Plano {
 
     Efecto efecto = new Efecto();
     Scanner in = new Scanner(System.in);
-    LeerFichero leer = new LeerFichero();
+    LeerFichero leerFichero = new LeerFichero();
     StringBuilder bui = new StringBuilder();
 
     Set<String> caracteres;
@@ -20,7 +20,6 @@ public class Plano {
     private String[][] plano;
     private Random random;
     private boolean estadisticas = false;
-    private boolean planoBooleano = false;
     private boolean semillaAleatoria = false;
 
     public Plano(String[][] matriz, Set<String> caracteres) {
@@ -28,6 +27,10 @@ public class Plano {
         this.columnas = matriz[0].length;
         this.plano = matriz;
         this.caracteres = caracteres;
+    }
+
+    public Plano (LeerFichero leerFichero){
+        this.leerFichero = leerFichero;
     }
 
     public Plano() {
@@ -105,7 +108,7 @@ public class Plano {
             nombre = partes[0];
             System.out.println(efecto.amarillo("Warning: No es necesario escribir el \".txt\""));
         }
-        Plano nuevoPlano = leer.convertirFicheroPlano(nombre);
+        Plano nuevoPlano = leerFichero.convertirFicheroPlano(nombre);
         if (nuevoPlano != null) {
             this.filas = nuevoPlano.filas;
             this.columnas = nuevoPlano.columnas;
@@ -205,16 +208,6 @@ public class Plano {
         return vacio;
     }
 
-    public void planoBooleano() {
-        for (int i = 0; i < filas; i++) {
-            for (int j = 0; j < columnas; j++) {
-                if (plano[i][j] == caracterVacio) bui.append("true").append(" ");
-                if (plano[i][j] == caracterLleno) bui.append("false").append(" ");
-            }
-            bui.append("\n");
-        }
-    }
-
     public void imprimirPlano() {
         if (semillaAleatoria) {
             efecto.separadoresConEspacioParaAleatorio(0, columnas);
@@ -257,18 +250,11 @@ public class Plano {
         if (semillaAleatoria) System.out.println("Porcentaje de celdas vacías: [" + String.format("%.2f", porcentajeVacio) + "%]");
         if (semillaAleatoria) System.out.println("Semilla utilizada: [" + semilla + "]");
         if (semillaAleatoria) System.out.println("Hash de la semilla: [" + Long.hashCode(semilla) + "]");
-        if (planoBooleano) {
-            planoBooleano();
-            for (int i = 0; i < columnas; i++) System.out.print("---");
-            System.out.println();
-            System.out.println("Plano en términos booleanos: ");
-            System.out.println(bui.toString());
-        }
         // Avisos y demás
         efecto.separadoresConGuion(0, columnas);
         if (!semillaAleatoria) System.out.println(efecto.cyan("Information: Cada carácter se cuenta como una columna."));
-        if (leer.isEsLlenado() == true) System.out.println(efecto.cyan("Algunas filas eran más cortas que la longitud máxima, por lo que han rellenado con caráteres adicionales para compensarlo. " + efecto.negrita("Este relleno no afecta los datos originales, solo asegura la integridad de la matriz generada.")));
-        leer.setEsLlenado(false);
+        if (leerFichero.isEsLlenado() == true) System.out.println(efecto.cyan("Algunas filas eran más cortas que la longitud máxima, por lo que han rellenado con caráteres adicionales para compensarlo. " + efecto.negrita("Este relleno no afecta los datos originales.")));
+        leerFichero.setEsLlenado(false);
         bui.setLength(0);
         this.semillaAleatoria = false;
     }
@@ -290,12 +276,6 @@ public class Plano {
     }
     public void setEstadisticas(boolean estadisticas) {
         this.estadisticas = estadisticas;
-    }
-    public boolean isPlanoBooleano() {
-        return planoBooleano;
-    }
-    public void setPlanoBooleano(boolean planoBooleano) {
-        this.planoBooleano = planoBooleano;
     }
     public int getFilas() {
         return filas;

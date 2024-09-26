@@ -1,10 +1,10 @@
 package com.forma;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.OutputStreamWriter;
 import java.io.FileOutputStream;
-import java.nio.charset.StandardCharsets;
+import java.io.OutputStreamWriter;
 import java.util.Scanner;
+import java.nio.charset.StandardCharsets;
 
 public class EscribirFichero {
     private Plano plano;
