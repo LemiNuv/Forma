@@ -18,7 +18,7 @@ Genera planos a partir de semillas o cargar un plano con archivos de texto. Perm
   
 - **Estructura del Plano**: El plano generado o leído desde un archivo se maneja como una matriz bidimensional (`String[][]`). Eso hace que si se genera un plano aleatoriamente, se guarda y se carga, dirá que tiene el doble de columnas.
 
-- **Corrección Automática de Matrices**: Ligado a lo anterior, al cargar un archivo, si las filas tienen una longitud desigual, el programa se encarga de ajustar la matriz, rellenando las celdas faltantes con un carácter por defecto *(de momento es una `x`)*.
+- **Corrección Automática de Matrices**: Ligado a lo anterior, al cargar un archivo, si las filas tienen una longitud desigual, el programa se encarga de ajustar la matriz, rellenando las celdas faltantes con un carácter por defecto que puede elegir el usuario desde la configuración.
 
 - **Guardar Plano anterior y Plano por Defecto**: En el menú se permite guardar el plano anteriormente creado por si por error se salió de la pantalla del generador de planos. Si no se ha creado un plano y se intenta guardar uno, por defecto se guardará un plano que se encuentra en el código.
 
